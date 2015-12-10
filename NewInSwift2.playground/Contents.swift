@@ -12,7 +12,7 @@ enum DrinkError: ErrorType {
 }
 class Beer {
     func isAvailable() -> Bool {
-        return true
+        return false
     }
 }
 var beer = Beer()
