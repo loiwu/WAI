@@ -9,28 +9,51 @@
 import UIKit
 import WebKit
 
-class HomeViewController: UIViewController {
+class HomeViewController: UIViewController, WKNavigationDelegate {
 
     var webView: WKWebView?
     
-    override func loadView() {
-        super.loadView() // call parent loadView
-        self.webView = WKWebView() // instantiate WKWebView
-        self.view = self.webView! // make it the main view
+    func webView(webView: WKWebView,
+        didStartProvisionalNavigation navigation: WKNavigation){
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+    }
+    
+    func webView(webView: WKWebView,
+        didFinishNavigation navigation: WKNavigation){
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+    }
+    
+    func webView(webView: WKWebView,
+        decidePolicyForNavigationResponse navigationResponse: WKNavigationResponse,
+        decisionHandler: ((WKNavigationResponsePolicy) -> Void)){
+            
+            print(navigationResponse.response.MIMEType)
+            
+            decisionHandler(.Allow)
+            
     }
     
     override func viewDidLoad() {
-        super.viewDidLoad() // run base class viewDidLoad
-        let url = NSURL(string:"http://loiwu.github.io/") // make a URL
-        let req = NSURLRequest(URL:url!) // make a request w/ that URL
-        self.webView!.loadRequest(req) // unwrap the webView and load the request.
+        super.viewDidLoad()
+        
+        let preferences = WKPreferences()
+        preferences.javaScriptEnabled = false
+        
+        let configuration = WKWebViewConfiguration()
+        configuration.preferences = preferences
+        
+        webView = WKWebView(frame: view.bounds, configuration: configuration)
+        
+        if let theWebView = webView{
+            let url = NSURL(string: "https://loiwu.github.io/")
+            let urlRequest = NSURLRequest(URL: url!)
+            theWebView.loadRequest(urlRequest)
+            theWebView.navigationDelegate = self
+            view.addSubview(theWebView)
+            
+        }
+        
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-
+    
 }
 
