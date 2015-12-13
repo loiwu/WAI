@@ -62,18 +62,18 @@ class SKMapsCenter: UIViewController, MKMapViewDelegate, UIGestureRecognizerDele
         innerCircleView_static.opaque = true
         
         // Pinch gesture: Pinching while maintaining users center position on the mapView
-        var pinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: "didReceivePinch:")
+        let pinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: "didReceivePinch:")
         pinchGestureRecognizer.delegate = self
         layerView.addGestureRecognizer(pinchGestureRecognizer)
         
         // One finger tap gesture: Used to zoom in on the mapView
-        var tapOneGestureRecognizer = UITapGestureRecognizer(target: self, action: "didReceiveTapOne:")
+        let tapOneGestureRecognizer = UITapGestureRecognizer(target: self, action: "didReceiveTapOne:")
         tapOneGestureRecognizer.delegate = self
         tapOneGestureRecognizer.numberOfTapsRequired = 2
         layerView.addGestureRecognizer(tapOneGestureRecognizer)
         
         // Two finger tap gesture: Used to zoom out on the mapView
-        var tapTwoGestureRecognizer = UITapGestureRecognizer(target: self, action: "didReceiveTapTwo:")
+        let tapTwoGestureRecognizer = UITapGestureRecognizer(target: self, action: "didReceiveTapTwo:")
         tapTwoGestureRecognizer.delegate = self
         tapTwoGestureRecognizer.numberOfTouchesRequired = 2
         layerView.addGestureRecognizer(tapTwoGestureRecognizer)
@@ -98,14 +98,14 @@ class SKMapsCenter: UIViewController, MKMapViewDelegate, UIGestureRecognizerDele
         super.viewDidAppear(animated)
         
         // Scaling animation
-        var scaleAnimation = CABasicAnimation(keyPath: "transform.scale")
+        let scaleAnimation = CABasicAnimation(keyPath: "transform.scale")
         scaleAnimation.duration = 1.35
         scaleAnimation.repeatCount = 100000
         scaleAnimation.fromValue = 1.0
         scaleAnimation.toValue = 3.0
         
         // Opacity animation
-        var opacityAnimation = CABasicAnimation(keyPath: "opacity")
+        let opacityAnimation = CABasicAnimation(keyPath: "opacity")
         opacityAnimation.duration = 1.35
         opacityAnimation.repeatCount = 100000
         opacityAnimation.fromValue = 0.2
@@ -180,7 +180,7 @@ class SKMapsCenter: UIViewController, MKMapViewDelegate, UIGestureRecognizerDele
         mapView.setRegion(MKCoordinateRegionMake(mapView.centerCoordinate, MKCoordinateSpanMake(latitudeDelta, longitudeDelta)), animated: true)
     }
     
-    func mapView(mapView: MKMapView!, regionDidChangeAnimated animated: Bool) {
+    func mapView(mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         
         // Activations
         if self.tapOneActivated == true {
